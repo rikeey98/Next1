@@ -1,9 +1,41 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import type { User } from '@supabase/supabase-js'
 
 export default function Header() {
+  const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const supabase = createClient()
+
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+      setIsLoading(false)
+    }
+
+    getUser()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    setUser(null)
+    router.refresh()
+  }
 
   return (
     <header className="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-800">
@@ -26,9 +58,42 @@ export default function Header() {
             <a href="#contact" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors">
               Contact
             </a>
-            <button className="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-colors">
-              Get Started
-            </button>
+
+            {!isLoading && (
+              <>
+                {user ? (
+                  <div className="flex items-center space-x-4">
+                    <Link
+                      href="/todos"
+                      className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors"
+                    >
+                      My Todos
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-4">
+                    <Link
+                      href="/login"
+                      className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-colors"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -61,9 +126,42 @@ export default function Header() {
               <a href="#contact" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600">
                 Contact
               </a>
-              <button className="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 w-full">
-                Get Started
-              </button>
+
+              {!isLoading && (
+                <>
+                  {user ? (
+                    <>
+                      <Link
+                        href="/todos"
+                        className="text-gray-700 dark:text-gray-300 hover:text-indigo-600"
+                      >
+                        My Todos
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 w-full"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/login"
+                        className="text-gray-700 dark:text-gray-300 hover:text-indigo-600"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/signup"
+                        className="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 w-full text-center"
+                      >
+                        Get Started
+                      </Link>
+                    </>
+                  )}
+                </>
+              )}
             </div>
           </div>
         )}
