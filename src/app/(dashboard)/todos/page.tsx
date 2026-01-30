@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import TodoList from '@/components/todos/TodoList'
 import AddTodo from '@/components/todos/AddTodo'
 
+export const dynamic = 'force-dynamic'
+
 export default async function TodosPage() {
   const supabase = await createClient()
 
