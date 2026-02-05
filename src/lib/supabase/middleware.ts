@@ -43,8 +43,8 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Protect /todos routes - redirect to login if not authenticated
-  if (pathname.startsWith('/todos') && !user) {
+  // Protect /todos and /dashboard routes - redirect to login if not authenticated
+  if ((pathname.startsWith('/todos') || pathname.startsWith('/dashboard')) && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
@@ -53,7 +53,7 @@ export async function updateSession(request: NextRequest) {
   // Redirect authenticated users away from auth pages
   if ((pathname === '/login' || pathname === '/signup') && user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/todos'
+    url.pathname = '/dashboard'
     return NextResponse.redirect(url)
   }
 

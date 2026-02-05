@@ -64,10 +64,16 @@ export default function Header() {
                 {user ? (
                   <div className="flex items-center space-x-4">
                     <Link
+                      href="/dashboard"
+                      className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
                       href="/todos"
                       className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 transition-colors"
                     >
-                      My Todos
+                      Todos
                     </Link>
                     <button
                       onClick={handleLogout}
@@ -132,10 +138,16 @@ export default function Header() {
                   {user ? (
                     <>
                       <Link
+                        href="/dashboard"
+                        className="text-gray-700 dark:text-gray-300 hover:text-indigo-600"
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
                         href="/todos"
                         className="text-gray-700 dark:text-gray-300 hover:text-indigo-600"
                       >
-                        My Todos
+                        Todos
                       </Link>
                       <button
                         onClick={handleLogout}

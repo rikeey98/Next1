@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+import Button from '@/components/ui/CustomButton'
+import Input from '@/components/ui/CustomInput'
 
 export default function LoginPage() {
   const router = useRouter()
