@@ -43,8 +43,10 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Protect /todos and /dashboard routes - redirect to login if not authenticated
-  if ((pathname.startsWith('/todos') || pathname.startsWith('/dashboard')) && !user) {
+  // Protected routes - redirect to login if not authenticated
+  const protectedPrefixes = ['/todos', '/dashboard', '/morning', '/wave', '/night', '/add', '/timer', '/onboarding', '/anchor-setup']
+  const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix))
+  if (isProtected && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
