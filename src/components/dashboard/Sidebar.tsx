@@ -8,9 +8,13 @@ import {
   Settings,
   Home,
   Sun,
+  LogOut,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 const navItems = [
   {
@@ -37,13 +41,21 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/login')
+    router.refresh()
+  }
 
   return (
     <aside className="hidden lg:flex flex-col w-64 border-r bg-card">
       <div className="p-6">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
           <Home className="h-6 w-6" />
-          NextLanding
+          Next1
         </Link>
       </div>
       <Separator />
@@ -67,6 +79,17 @@ export default function Sidebar() {
           )
         })}
       </nav>
+      <Separator />
+      <div className="p-4">
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-muted-foreground hover:text-accent-foreground"
+          onClick={handleLogout}
+        >
+          <LogOut className="mr-3 h-5 w-5" />
+          로그아웃
+        </Button>
+      </div>
     </aside>
   )
 }

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import AppHeader from '@/components/AppHeader'
 
 export const metadata: Metadata = {
-  title: 'Next Landing - Modern Solutions for Your Business',
-  description: 'Transform your business with our cutting-edge solutions. Fast, reliable, and scalable.',
+  title: 'Next1 - MVP Playground',
+  description: '여러 MVP 아이디어를 빠르게 실험하는 공간',
 }
 
 export default function RootLayout({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <AppHeader />
+        {children}
+      </body>
     </html>
   )
 }
