@@ -7,6 +7,7 @@ import {
   CheckSquare,
   Settings,
   Home,
+  Sun,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
@@ -21,6 +22,11 @@ const navItems = [
     title: 'Todos',
     href: '/todos',
     icon: CheckSquare,
+  },
+  {
+    title: 'INFP TODO',
+    href: '/infp/morning',
+    icon: Sun,
   },
   {
     title: 'Settings',
