@@ -17,6 +17,7 @@ export default function TodayWaveLog({ logs }: TodayWaveLogProps) {
           const time = new Date(log.logged_at).toLocaleTimeString('ko-KR', {
             hour: '2-digit',
             minute: '2-digit',
+            timeZone: 'Asia/Seoul',
           })
           return (
             <div key={log.id} className="flex items-center gap-3 rounded-lg border bg-white p-3">
