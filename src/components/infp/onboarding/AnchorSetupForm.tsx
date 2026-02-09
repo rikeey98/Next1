@@ -1,11 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { X, Plus } from 'lucide-react'
-import { insertAnchors, completeOnboarding } from '@/lib/infp/actions'
+import { completeOnboardingAction } from '@/app/(infp-onboarding)/actions'
 
 const DEFAULT_ANCHORS = [
   '성장하는 사람',
@@ -14,7 +13,6 @@ const DEFAULT_ANCHORS = [
 ]
 
 export default function AnchorSetupForm() {
-  const router = useRouter()
   const [anchors, setAnchors] = useState(DEFAULT_ANCHORS)
   const [newAnchor, setNewAnchor] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -40,13 +38,10 @@ export default function AnchorSetupForm() {
     setIsSubmitting(true)
 
     try {
-      await insertAnchors(
+      await completeOnboardingAction(
         validAnchors.map((text, i) => ({ text, sort_order: i }))
       )
-      await completeOnboarding()
-
-      // Force a full page reload to ensure server state is fresh
-      window.location.href = '/morning'
+      // Server Action will handle redirect
     } catch (error) {
       console.error('Failed to complete onboarding:', error)
       setIsSubmitting(false)

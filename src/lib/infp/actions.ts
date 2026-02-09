@@ -132,7 +132,21 @@ export async function insertAnchors(anchors: { text: string; sort_order: number 
 export async function completeOnboarding() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return
+  if (!user) {
+    throw new Error('User not authenticated')
+  }
 
-  await supabase.from('profiles').update({ onboarding_completed: true }).eq('id', user.id)
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({ onboarding_completed: true })
+    .eq('id', user.id)
+    .select()
+
+  if (error) {
+    console.error('Failed to update onboarding_completed:', error)
+    throw error
+  }
+
+  console.log('Onboarding completed successfully:', data)
+  return { success: true }
 }
