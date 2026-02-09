@@ -39,12 +39,18 @@ export default function AnchorSetupForm() {
     if (validAnchors.length === 0 || isSubmitting) return
     setIsSubmitting(true)
 
-    await insertAnchors(
-      validAnchors.map((text, i) => ({ text, sort_order: i }))
-    )
-    await completeOnboarding()
-    router.refresh()
-    router.push('/morning')
+    try {
+      await insertAnchors(
+        validAnchors.map((text, i) => ({ text, sort_order: i }))
+      )
+      await completeOnboarding()
+
+      // Force a full page reload to ensure server state is fresh
+      window.location.href = '/morning'
+    } catch (error) {
+      console.error('Failed to complete onboarding:', error)
+      setIsSubmitting(false)
+    }
   }
 
   return (
