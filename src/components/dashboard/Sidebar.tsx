@@ -25,7 +25,7 @@ const navItems = [
   },
   {
     title: 'INFP TODO',
-    href: '/infp/morning',
+    href: '/morning',
     icon: Sun,
   },
   {
