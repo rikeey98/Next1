@@ -43,8 +43,8 @@ export default function AnchorSetupForm() {
       validAnchors.map((text, i) => ({ text, sort_order: i }))
     )
     await completeOnboarding()
-    router.push('/morning')
     router.refresh()
+    router.push('/morning')
   }
 
   return (
