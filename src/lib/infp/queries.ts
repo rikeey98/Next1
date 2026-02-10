@@ -225,6 +225,30 @@ export async function getFootprintsData() {
     }
   }) ?? []
 
+  // Prepare energy wave data for overlayed chart (last 7 days)
+  const energyWaveData = []
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date()
+    date.setDate(date.getDate() - i)
+    const dateStr = date.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })
+
+    const dayLogs = energyLogsRes.data?.filter(e => e.logged_at.startsWith(dateStr)) ?? []
+    const logs = dayLogs.map(log => {
+      const logDate = new Date(log.logged_at)
+      const kstTime = new Date(logDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+      return {
+        time: kstTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
+        level: log.level,
+        hour: kstTime.getHours(),
+      }
+    })
+
+    energyWaveData.push({
+      date: dateStr,
+      logs,
+    })
+  }
+
   return {
     stats: {
       avgEnergy,
@@ -233,5 +257,6 @@ export async function getFootprintsData() {
       reflectionCount: reflectionsRes.data?.length ?? 0,
     },
     dailyRecords,
+    energyWaveData,
   }
 }
