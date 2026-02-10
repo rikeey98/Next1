@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { logMicroActionEvent, updateMicroAction } from '@/lib/infp/actions'
+import { toast } from 'sonner'
 import TimerDisplay from './TimerDisplay'
 import TimerControls from './TimerControls'
 import CompletionDialog from './CompletionDialog'
@@ -95,6 +96,7 @@ export default function TimerView({ microAction }: TimerViewProps) {
       completion_rate: rate,
       completed_at: new Date().toISOString(),
     })
+    toast.success(`완료! ${rate}%의 성취감 🎉`)
     router.push('/morning')
     router.refresh()
   }

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { insertEnergyLog } from '@/lib/infp/actions'
+import { toast } from 'sonner'
 import EnergyLevelSelector from './EnergyLevelSelector'
 
 export default function EnergyCheckForm() {
@@ -16,11 +17,17 @@ export default function EnergyCheckForm() {
   const handleSubmit = async () => {
     if (!level || isSubmitting) return
     setIsSubmitting(true)
-    await insertEnergyLog(level, note)
-    setLevel(null)
-    setNote('')
-    setIsSubmitting(false)
-    router.refresh()
+    try {
+      await insertEnergyLog(level, note)
+      setLevel(null)
+      setNote('')
+      toast.success('에너지가 기록되었습니다')
+      router.refresh()
+    } catch (error) {
+      toast.error('기록에 실패했습니다')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (

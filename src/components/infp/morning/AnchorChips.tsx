@@ -9,6 +9,7 @@ import { Pencil, Check, X, Plus, Trash2 } from 'lucide-react'
 import { upsertDailyState } from '@/lib/infp/actions'
 import { getToday } from '@/lib/infp/utils'
 import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
 import type { Anchor } from '@/types/database'
 
 interface AnchorChipsProps {
@@ -45,51 +46,72 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
   const handleSaveEdit = async (id: string) => {
     if (!editText.trim()) return
 
-    const response = await fetch('/api/anchors', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, text: editText }),
-    })
+    try {
+      const response = await fetch('/api/anchors', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, text: editText }),
+      })
 
-    if (response.ok) {
-      setAnchors(anchors.map(a => a.id === id ? { ...a, text: editText } : a))
-      setEditingId(null)
-      setEditText('')
-      router.refresh()
+      if (response.ok) {
+        setAnchors(anchors.map(a => a.id === id ? { ...a, text: editText } : a))
+        setEditingId(null)
+        setEditText('')
+        router.refresh()
+        toast.success('앵커가 수정되었습니다')
+      } else {
+        toast.error('수정에 실패했습니다')
+      }
+    } catch (error) {
+      toast.error('네트워크 오류가 발생했습니다')
     }
   }
 
   const handleDelete = async (id: string) => {
     if (!confirm('이 앵커를 삭제하시겠습니까?')) return
 
-    const response = await fetch('/api/anchors', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    })
+    try {
+      const response = await fetch('/api/anchors', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
 
-    if (response.ok) {
-      setAnchors(anchors.filter(a => a.id !== id))
-      if (selected === id) setSelected(null)
-      router.refresh()
+      if (response.ok) {
+        setAnchors(anchors.filter(a => a.id !== id))
+        if (selected === id) setSelected(null)
+        router.refresh()
+        toast.success('앵커가 삭제되었습니다')
+      } else {
+        toast.error('삭제에 실패했습니다')
+      }
+    } catch (error) {
+      toast.error('네트워크 오류가 발생했습니다')
     }
   }
 
   const handleAdd = async () => {
     if (!newAnchorText.trim()) return
 
-    const response = await fetch('/api/anchors', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: newAnchorText }),
-    })
+    try {
+      const response = await fetch('/api/anchors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: newAnchorText }),
+      })
 
-    if (response.ok) {
-      const data = await response.json()
-      setAnchors([...anchors, data.anchor])
-      setNewAnchorText('')
-      setIsAdding(false)
-      router.refresh()
+      if (response.ok) {
+        const data = await response.json()
+        setAnchors([...anchors, data.anchor])
+        setNewAnchorText('')
+        setIsAdding(false)
+        router.refresh()
+        toast.success('앵커가 추가되었습니다')
+      } else {
+        toast.error('추가에 실패했습니다')
+      }
+    } catch (error) {
+      toast.error('네트워크 오류가 발생했습니다')
     }
   }
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import AppHeader from '@/components/AppHeader'
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: 'Next1 - MVP Playground',
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <AppHeader />
         {children}
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   )

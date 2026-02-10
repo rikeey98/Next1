@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { insertMicroAction, upsertDailyState } from '@/lib/infp/actions'
 import { getToday } from '@/lib/infp/utils'
+import { toast } from 'sonner'
 
 export default function Step2Tomorrow() {
   const router = useRouter()
@@ -16,14 +17,20 @@ export default function Step2Tomorrow() {
     if (!text.trim() || isSaving) return
     setIsSaving(true)
 
-    const action = await insertMicroAction(text.trim())
-    await upsertDailyState(getToday(), {
-      tomorrow_first_action_text: text.trim(),
-      tomorrow_first_action_id: action?.id ?? null,
-    })
+    try {
+      const action = await insertMicroAction(text.trim())
+      await upsertDailyState(getToday(), {
+        tomorrow_first_action_text: text.trim(),
+        tomorrow_first_action_id: action?.id ?? null,
+      })
 
-    router.refresh()
-    router.push('/morning')
+      toast.success('내일 첫 행동이 설정되었습니다')
+      router.refresh()
+      router.push('/morning')
+    } catch (error) {
+      toast.error('저장에 실패했습니다')
+      setIsSaving(false)
+    }
   }
 
   return (

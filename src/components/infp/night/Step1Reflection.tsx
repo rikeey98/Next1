@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { upsertReflection } from '@/lib/infp/actions'
 import { getToday } from '@/lib/infp/utils'
+import { toast } from 'sonner'
 
 interface Step1ReflectionProps {
   initialText: string
@@ -21,10 +22,16 @@ export default function Step1Reflection({ initialText, onNext }: Step1Reflection
   const handleSave = async () => {
     if (!text.trim() || isSaving) return
     setIsSaving(true)
-    await upsertReflection(getToday(), text.trim())
-    router.refresh()
-    setIsSaving(false)
-    onNext()
+    try {
+      await upsertReflection(getToday(), text.trim())
+      router.refresh()
+      toast.success('회고가 저장되었습니다')
+      onNext()
+    } catch (error) {
+      toast.error('저장에 실패했습니다')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
