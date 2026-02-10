@@ -1,11 +1,12 @@
 export function getToday(): string {
-  return new Date().toLocaleDateString('en-CA')
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })
 }
 
 export function getYesterday(): string {
-  const d = new Date()
-  d.setDate(d.getDate() - 1)
-  return d.toLocaleDateString('en-CA')
+  const now = new Date()
+  const kst = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+  kst.setDate(kst.getDate() - 1)
+  return kst.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })
 }
 
 export function formatKoreanDate(dateStr: string): string {
