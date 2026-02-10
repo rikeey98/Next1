@@ -142,3 +142,96 @@ export async function getUserAnchors() {
 
   return data ?? []
 }
+
+export async function getFootprintsData() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+
+  const today = getToday()
+  const sevenDaysAgo = new Date()
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+  const sevenDaysAgoStr = sevenDaysAgo.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })
+
+  // Get last 30 days of daily states with reflections
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  const thirtyDaysAgoStr = thirtyDaysAgo.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })
+
+  const [dailyStatesRes, reflectionsRes, energyLogsRes, anchorsRes, actionsRes] = await Promise.all([
+    supabase
+      .from('daily_state')
+      .select('*')
+      .eq('user_id', user.id)
+      .gte('date', thirtyDaysAgoStr)
+      .order('date', { ascending: false }),
+    supabase
+      .from('reflections')
+      .select('*')
+      .eq('user_id', user.id)
+      .gte('date', thirtyDaysAgoStr)
+      .order('date', { ascending: false }),
+    supabase
+      .from('energy_logs')
+      .select('*')
+      .eq('user_id', user.id)
+      .gte('logged_at', sevenDaysAgoStr + 'T00:00:00')
+      .order('logged_at', { ascending: false }),
+    supabase
+      .from('anchors')
+      .select('*')
+      .eq('user_id', user.id)
+      .is('archived_at', null),
+    supabase
+      .from('micro_actions')
+      .select('*')
+      .eq('user_id', user.id)
+      .gte('created_at', sevenDaysAgoStr + 'T00:00:00')
+      .eq('status', 'completed'),
+  ])
+
+  // Calculate stats
+  const avgEnergy = energyLogsRes.data?.length
+    ? (energyLogsRes.data.reduce((sum, log) => sum + log.level, 0) / energyLogsRes.data.length).toFixed(1)
+    : null
+
+  const anchorCounts = dailyStatesRes.data?.reduce((acc, ds) => {
+    if (ds.selected_anchor_id) {
+      acc[ds.selected_anchor_id] = (acc[ds.selected_anchor_id] || 0) + 1
+    }
+    return acc
+  }, {} as Record<string, number>) ?? {}
+
+  const topAnchorId = Object.entries(anchorCounts).sort((a, b) => b[1] - a[1])[0]?.[0]
+  const topAnchor = anchorsRes.data?.find(a => a.id === topAnchorId)
+
+  // Combine daily records
+  const dailyRecords = dailyStatesRes.data?.map(ds => {
+    const reflection = reflectionsRes.data?.find(r => r.date === ds.date)
+    const dayEnergy = energyLogsRes.data?.filter(e =>
+      e.logged_at.startsWith(ds.date)
+    )
+    const dayActions = actionsRes.data?.filter(a =>
+      a.created_at.startsWith(ds.date)
+    )
+    const anchor = anchorsRes.data?.find(a => a.id === ds.selected_anchor_id)
+
+    return {
+      date: ds.date,
+      anchor,
+      reflection: reflection?.most_me,
+      energyLogs: dayEnergy ?? [],
+      completedActions: dayActions ?? [],
+    }
+  }) ?? []
+
+  return {
+    stats: {
+      avgEnergy,
+      topAnchor,
+      completedCount: actionsRes.data?.length ?? 0,
+      reflectionCount: reflectionsRes.data?.length ?? 0,
+    },
+    dailyRecords,
+  }
+}
