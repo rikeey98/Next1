@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { logMicroActionEvent, updateMicroAction } from '@/lib/infp/actions'
 import { toast } from 'sonner'
+import { useTimerStore } from '@/store/timerStore'
 import TimerDisplay from './TimerDisplay'
 import TimerControls from './TimerControls'
 import CompletionDialog from './CompletionDialog'
@@ -15,37 +16,44 @@ interface TimerViewProps {
 
 export default function TimerView({ microAction }: TimerViewProps) {
   const router = useRouter()
-  const [status, setStatus] = useState<'idle' | 'running' | 'paused'>('idle')
-  const [totalSeconds, setTotalSeconds] = useState(microAction.duration_seconds)
-  const [remaining, setRemaining] = useState(microAction.duration_seconds)
+  const {
+    microActionId: storeMicroActionId,
+    microActionText,
+    totalSeconds: storeTotalSeconds,
+    remainingSeconds: storeRemaining,
+    status: storeStatus,
+    startTimer: storeStartTimer,
+    pauseTimer: storePauseTimer,
+    resumeTimer: storeResumeTimer,
+    resetTimer: storeResetTimer,
+  } = useTimerStore()
+
+  // Use store state if this is the active timer, otherwise use local initial state
+  const isActiveTimer = storeMicroActionId === microAction.id
+  const [status, setStatus] = useState<'idle' | 'running' | 'paused'>(
+    isActiveTimer ? storeStatus : 'idle'
+  )
+  const [totalSeconds, setTotalSeconds] = useState(
+    isActiveTimer ? storeTotalSeconds : microAction.duration_seconds
+  )
+  const [remaining, setRemaining] = useState(
+    isActiveTimer ? storeRemaining : microAction.duration_seconds
+  )
   const [showCompletion, setShowCompletion] = useState(false)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const clearTimer = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-      intervalRef.current = null
-    }
-  }, [])
-
-  const startTimer = useCallback(() => {
-    clearTimer()
-    intervalRef.current = setInterval(() => {
-      setRemaining((prev) => {
-        if (prev <= 1) {
-          clearTimer()
-          setStatus('idle')
-          setShowCompletion(true)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-  }, [clearTimer])
-
+  // Sync local state with store when this is the active timer
   useEffect(() => {
-    return clearTimer
-  }, [clearTimer])
+    if (isActiveTimer) {
+      setStatus(storeStatus)
+      setRemaining(storeRemaining)
+      setTotalSeconds(storeTotalSeconds)
+
+      // Show completion dialog when timer reaches 0
+      if (storeRemaining === 0 && storeStatus === 'idle') {
+        setShowCompletion(true)
+      }
+    }
+  }, [isActiveTimer, storeStatus, storeRemaining, storeTotalSeconds])
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -59,7 +67,7 @@ export default function TimerView({ microAction }: TimerViewProps) {
 
   const handleStart = async () => {
     setStatus('running')
-    startTimer()
+    storeStartTimer(microAction.id, microAction.text, microAction.duration_seconds)
     await logMicroActionEvent(microAction.id, 'start')
     await updateMicroAction(microAction.id, {
       status: 'running',
@@ -69,19 +77,19 @@ export default function TimerView({ microAction }: TimerViewProps) {
 
   const handlePause = async () => {
     setStatus('paused')
-    clearTimer()
+    storePauseTimer()
     await logMicroActionEvent(microAction.id, 'pause', { remaining })
   }
 
   const handleResume = async () => {
     setStatus('running')
-    startTimer()
+    storeResumeTimer()
     await logMicroActionEvent(microAction.id, 'resume', { remaining })
   }
 
   const handleAbandon = async () => {
-    clearTimer()
     setStatus('idle')
+    storeResetTimer()
     await logMicroActionEvent(microAction.id, 'abandon', { remaining })
     await updateMicroAction(microAction.id, { status: 'abandoned' })
     router.push('/morning')
@@ -90,6 +98,7 @@ export default function TimerView({ microAction }: TimerViewProps) {
 
   const handleComplete = async (rate: number) => {
     setShowCompletion(false)
+    storeResetTimer()
     await logMicroActionEvent(microAction.id, 'complete', { completion_rate: rate })
     await updateMicroAction(microAction.id, {
       status: 'completed',
@@ -107,7 +116,7 @@ export default function TimerView({ microAction }: TimerViewProps) {
     setTotalSeconds(newTotal)
     setRemaining(120)
     setStatus('running')
-    startTimer()
+    storeStartTimer(microAction.id, microAction.text, newTotal)
     logMicroActionEvent(microAction.id, 'extend', { additional_seconds: 120 })
     updateMicroAction(microAction.id, { duration_seconds: newTotal })
   }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import AppHeader from '@/components/AppHeader'
+import TimerBar from '@/components/TimerBar'
 import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className="font-sans antialiased">
         <AppHeader />
+        <TimerBar />
         {children}
         <Toaster position="top-center" richColors />
       </body>
