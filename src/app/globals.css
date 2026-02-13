@@ -74,3 +74,34 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+/* Anthropic Brand Theme */
+.anthropic-brand {
+  --background: 48 56% 97%;
+  --foreground: 60 3% 8%;
+  --card: 0 0% 100%;
+  --card-foreground: 60 3% 8%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 60 3% 8%;
+  --primary: 15 64% 60%;
+  --primary-foreground: 48 56% 97%;
+  --secondary: 50 21% 89%;
+  --secondary-foreground: 60 3% 8%;
+  --muted: 50 21% 89%;
+  --muted-foreground: 49 6% 47%;
+  --accent: 210 47% 61%;
+  --accent-foreground: 48 56% 97%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 48 56% 97%;
+  --border: 50 14% 82%;
+  --input: 50 14% 82%;
+  --ring: 15 64% 60%;
+}
+
+.anthropic-brand .font-heading {
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+.anthropic-brand .font-body {
+  font-family: 'Lora', Georgia, serif;
+}

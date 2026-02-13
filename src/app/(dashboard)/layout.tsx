@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="anthropic-brand flex min-h-screen bg-background font-body">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <DashboardHeader userEmail={user.email} />

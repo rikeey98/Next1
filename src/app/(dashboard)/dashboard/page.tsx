@@ -28,8 +28,8 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl font-bold tracking-tight font-heading text-[#141413]">Dashboard</h1>
+        <p className="text-[#b0aea5] font-body">
           Welcome back! Here&apos;s an overview of your todos.
         </p>
       </div>
@@ -40,34 +40,38 @@ export default async function DashboardPage() {
           value={allTodos.length}
           description="All your tasks"
           icon={ListTodo}
+          accentColor="#d97757"
         />
         <StatsCard
           title="Completed"
           value={completedTodos.length}
           description="Tasks done"
           icon={CheckCircle2}
+          accentColor="#788c5d"
         />
         <StatsCard
           title="Pending"
           value={pendingTodos.length}
           description="Tasks remaining"
           icon={Clock}
+          accentColor="#6a9bcc"
         />
         <StatsCard
           title="Completion Rate"
           value={`${completionRate}%`}
           description="Overall progress"
           icon={TrendingUp}
+          accentColor="#d97757"
         />
       </div>
 
-      <Card>
+      <Card className="border-[#e8e6dc] bg-white">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Recent Todos</CardTitle>
-            <CardDescription>Your latest tasks at a glance</CardDescription>
+            <CardTitle className="font-heading text-[#141413]">Recent Todos</CardTitle>
+            <CardDescription className="text-[#b0aea5]">Your latest tasks at a glance</CardDescription>
           </div>
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline" size="sm" className="border-[#d97757] text-[#d97757] hover:bg-[#d97757] hover:text-white">
             <Link href="/todos">
               View all
               <ArrowRight className="ml-2 h-4 w-4" />

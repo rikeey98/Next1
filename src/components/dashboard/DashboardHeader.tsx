@@ -56,7 +56,7 @@ export default function DashboardHeader({ userEmail }: DashboardHeaderProps) {
   }
 
   return (
-    <header className="flex h-16 items-center gap-4 border-b bg-card px-4 lg:px-6">
+    <header className="flex h-16 items-center gap-4 border-b border-[#e8e6dc] bg-white px-4 lg:px-6">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="lg:hidden">
@@ -64,14 +64,14 @@ export default function DashboardHeader({ userEmail }: DashboardHeaderProps) {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-64 p-0">
+        <SheetContent side="left" className="w-64 p-0 bg-[#141413]">
           <div className="p-6">
-            <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
+            <Link href="/" className="flex items-center gap-2 text-xl font-bold text-[#faf9f5] font-heading">
               <Home className="h-6 w-6" />
-              NextLanding
+              Next1
             </Link>
           </div>
-          <Separator />
+          <Separator className="bg-[#b0aea5]/20" />
           <nav className="flex-1 p-4 space-y-2">
             {navItems.map((item) => {
               const isActive = pathname === item.href
@@ -82,8 +82,8 @@ export default function DashboardHeader({ userEmail }: DashboardHeaderProps) {
                   className={cn(
                     'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                      ? 'bg-[#d97757] text-[#faf9f5]'
+                      : 'text-[#b0aea5] hover:bg-[#d97757]/10 hover:text-[#faf9f5]'
                   )}
                 >
                   <item.icon className="h-5 w-5" />

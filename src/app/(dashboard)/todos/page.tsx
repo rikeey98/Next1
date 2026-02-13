@@ -14,7 +14,7 @@ export default async function TodosPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
+      <h1 className="text-2xl font-bold text-[#141413] mb-8 font-heading">
         My Todos
       </h1>
 
