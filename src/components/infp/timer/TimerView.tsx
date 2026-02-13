@@ -96,6 +96,14 @@ export default function TimerView({ microAction }: TimerViewProps) {
     router.refresh()
   }
 
+  const handleEarlyComplete = () => {
+    // 타이머 일시정지하고 완료 다이얼로그 표시
+    if (status === 'running') {
+      storePauseTimer()
+    }
+    setShowCompletion(true)
+  }
+
   const handleComplete = async (rate: number) => {
     setShowCompletion(false)
     storeResetTimer()
@@ -137,6 +145,7 @@ export default function TimerView({ microAction }: TimerViewProps) {
         onPause={handlePause}
         onResume={handleResume}
         onAbandon={handleAbandon}
+        onComplete={handleEarlyComplete}
       />
 
       <CompletionDialog
