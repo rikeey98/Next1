@@ -18,6 +18,11 @@ const config: Config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+  		boxShadow: {
+  			cozy: '0 2px 12px 0 rgba(212, 135, 143, 0.12)',
+  			'cozy-lg': '0 4px 24px 0 rgba(212, 135, 143, 0.16)',
+  			'cozy-glow': '0 0 20px 4px rgba(245, 197, 184, 0.25)',
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -58,8 +63,44 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			cozy: {
+  				sage: '#B5C5B8',
+  				lavender: '#C9BDD4',
+  				peach: '#F5C5B8',
+  				apricot: '#F0DDD6',
   			}
-  		}
+  		},
+  		keyframes: {
+  			'cozy-float': {
+  				'0%, 100%': { transform: 'translateY(0)' },
+  				'50%': { transform: 'translateY(-6px)' },
+  			},
+  			'cozy-breathe': {
+  				'0%, 100%': { transform: 'scale(1)', opacity: '1' },
+  				'50%': { transform: 'scale(1.04)', opacity: '0.9' },
+  			},
+  			'cozy-blob-drift': {
+  				'0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+  				'33%': { transform: 'translate(20px, -15px) scale(1.05)' },
+  				'66%': { transform: 'translate(-10px, 10px) scale(0.95)' },
+  			},
+  			'cozy-fade-in': {
+  				from: { opacity: '0', transform: 'translateY(8px)' },
+  				to: { opacity: '1', transform: 'translateY(0)' },
+  			},
+  			'cozy-pulse-ring': {
+  				'0%': { transform: 'scale(1)', opacity: '0.6' },
+  				'100%': { transform: 'scale(1.5)', opacity: '0' },
+  			},
+  		},
+  		animation: {
+  			'cozy-float': 'cozy-float 4s ease-in-out infinite',
+  			'cozy-breathe': 'cozy-breathe 5s ease-in-out infinite',
+  			'cozy-blob-drift': 'cozy-blob-drift 12s ease-in-out infinite',
+  			'cozy-fade-in': 'cozy-fade-in 0.5s ease-out forwards',
+  			'cozy-pulse-ring': 'cozy-pulse-ring 2s ease-out infinite',
+  		},
   	}
   },
   plugins: [require("tailwindcss-animate")],

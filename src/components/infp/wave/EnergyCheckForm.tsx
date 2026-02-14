@@ -44,7 +44,7 @@ export default function EnergyCheckForm() {
       <Button
         onClick={handleSubmit}
         disabled={!level || isSubmitting}
-        className="w-full bg-indigo-600 hover:bg-indigo-700"
+        className="w-full bg-primary hover:bg-primary/90"
       >
         {isSubmitting ? '기록 중...' : '기록하기'}
       </Button>

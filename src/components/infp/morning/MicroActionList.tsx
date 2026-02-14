@@ -23,7 +23,7 @@ export default function MicroActionList({ actions }: MicroActionListProps) {
           오늘의 마이크로 행동 ({actions.length})
         </h2>
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/add" className="gap-1 text-indigo-600">
+          <Link href="/add" className="gap-1 text-primary">
             <Plus className="h-4 w-4" />
             추가
           </Link>
@@ -31,10 +31,10 @@ export default function MicroActionList({ actions }: MicroActionListProps) {
       </div>
 
       {actions.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/30 p-8 text-center">
+        <div className="rounded-2xl border border-dashed border-secondary bg-secondary/20 p-8 text-center">
           <p className="text-sm text-muted-foreground">아직 행동이 없어요</p>
           <Button variant="link" size="sm" asChild>
-            <Link href="/add" className="text-indigo-600">
+            <Link href="/add" className="text-primary">
               첫 번째 2분 행동 추가하기
             </Link>
           </Button>

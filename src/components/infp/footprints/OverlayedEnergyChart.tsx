@@ -17,19 +17,19 @@ interface OverlayedEnergyChartProps {
 }
 
 const COLORS = [
-  '#6366f1', // indigo
-  '#ec4899', // pink
-  '#8b5cf6', // purple
-  '#f59e0b', // amber
-  '#10b981', // green
-  '#3b82f6', // blue
-  '#ef4444', // red
+  '#D4878F', // dusty rose
+  '#F5C5B8', // warm peach
+  '#C9BDD4', // lavender fog
+  '#B5C5B8', // sage mist
+  '#E8A598', // coral
+  '#D4B5C9', // mauve
+  '#C5D4B5', // soft green
 ]
 
 export default function OverlayedEnergyChart({ daysData }: OverlayedEnergyChartProps) {
   if (daysData.length === 0 || daysData.every(d => d.logs.length === 0)) {
     return (
-      <Card className="mb-6">
+      <Card className="mb-6 rounded-2xl shadow-cozy">
         <CardHeader>
           <CardTitle className="text-base">파도의 흐름</CardTitle>
         </CardHeader>
@@ -42,16 +42,13 @@ export default function OverlayedEnergyChart({ daysData }: OverlayedEnergyChartP
     )
   }
 
-  // Create hourly data structure (0-23 hours)
   const hours = Array.from({ length: 24 }, (_, i) => i)
   const chartData = hours.map(hour => {
     const dataPoint: any = { hour: `${hour}시` }
 
     daysData.forEach((day, idx) => {
-      // Find logs for this hour
       const hourLogs = day.logs.filter(log => log.hour === hour)
       if (hourLogs.length > 0) {
-        // Average if multiple logs in same hour
         const avg = hourLogs.reduce((sum, log) => sum + log.level, 0) / hourLogs.length
         dataPoint[day.date] = avg
       }
@@ -59,12 +56,11 @@ export default function OverlayedEnergyChart({ daysData }: OverlayedEnergyChartP
 
     return dataPoint
   }).filter(d => {
-    // Only include hours that have at least one data point
     return Object.keys(d).length > 1
   })
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 rounded-2xl shadow-cozy">
       <CardHeader>
         <CardTitle className="text-base">파도의 흐름</CardTitle>
         <p className="text-xs text-muted-foreground">최근 7일간의 에너지 패턴</p>
@@ -72,24 +68,24 @@ export default function OverlayedEnergyChart({ daysData }: OverlayedEnergyChartP
       <CardContent>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#F0DDD6" />
             <XAxis
               dataKey="hour"
               tick={{ fontSize: 11 }}
-              stroke="#9ca3af"
+              stroke="#9B8E8E"
               interval="preserveStartEnd"
             />
             <YAxis
               domain={[0, 5]}
               ticks={[1, 2, 3, 4]}
               tick={{ fontSize: 11 }}
-              stroke="#9ca3af"
+              stroke="#9B8E8E"
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#fff',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
+                backgroundColor: '#FFFDFB',
+                border: '1px solid #F0DDD6',
+                borderRadius: '12px',
                 fontSize: '11px',
               }}
             />

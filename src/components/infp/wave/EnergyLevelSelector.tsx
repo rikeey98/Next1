@@ -16,10 +16,10 @@ export default function EnergyLevelSelector({ selected, onSelect }: EnergyLevelS
           key={item.level}
           onClick={() => onSelect(item.level)}
           className={cn(
-            'flex flex-col items-center gap-1 rounded-xl border p-4 transition-all',
+            'flex flex-col items-center gap-1 rounded-2xl border p-4 transition-all',
             selected === item.level
-              ? 'border-indigo-400 bg-indigo-50 shadow-sm'
-              : 'border-gray-200 bg-white hover:border-indigo-200'
+              ? 'border-primary bg-secondary/30 shadow-cozy'
+              : 'border-border bg-card hover:border-secondary'
           )}
         >
           <span className="text-2xl">{item.emoji}</span>

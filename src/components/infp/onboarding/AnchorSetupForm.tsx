@@ -90,7 +90,7 @@ export default function AnchorSetupForm() {
               size="icon"
               onClick={handleAdd}
               disabled={!newAnchor.trim()}
-              className="shrink-0 text-indigo-600"
+              className="shrink-0 text-primary"
             >
               <Plus className="h-4 w-4" />
             </Button>
@@ -102,7 +102,7 @@ export default function AnchorSetupForm() {
         size="lg"
         onClick={handleComplete}
         disabled={anchors.filter((a) => a.trim()).length === 0 || isSubmitting}
-        className="w-full bg-indigo-600 hover:bg-indigo-700"
+        className="w-full bg-primary hover:bg-primary/90"
       >
         {isSubmitting ? '설정 중...' : '완료'}
       </Button>

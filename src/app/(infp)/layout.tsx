@@ -41,8 +41,10 @@ export default async function InfpLayout({
   console.log('[INFP Layout] Onboarding completed, rendering page')
 
   return (
-    <div className="mx-auto min-h-screen max-w-lg bg-gradient-to-b from-indigo-50/50 to-white pb-20">
-      <main className="px-4 pt-4">
+    <div className="infp-cozy relative mx-auto min-h-screen max-w-lg overflow-hidden bg-background pb-20">
+      <div className="infp-blob infp-blob-1" />
+      <div className="infp-blob infp-blob-2" />
+      <main className="relative z-10 px-4 pt-4">
         {children}
       </main>
       <BottomNav />

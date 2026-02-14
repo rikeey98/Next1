@@ -43,11 +43,11 @@ export default function DailyRecordList({ records }: DailyRecordListProps) {
         const hasContent = record.anchor || record.reflection || record.energyLogs.length > 0 || record.completedActions.length > 0
 
         return (
-          <Card key={record.date} className="overflow-hidden">
+          <Card key={record.date} className="overflow-hidden rounded-2xl shadow-cozy">
             <CardContent className="p-0">
               <button
                 onClick={() => hasContent && toggleExpand(record.date)}
-                className="w-full p-4 text-left hover:bg-accent/50 transition-colors"
+                className="w-full p-4 text-left hover:bg-secondary/20 transition-colors"
                 disabled={!hasContent}
               >
                 <div className="flex items-center justify-between">
@@ -55,17 +55,17 @@ export default function DailyRecordList({ records }: DailyRecordListProps) {
                     <p className="text-sm font-medium">{formatKoreanDate(record.date)}</p>
                     <div className="mt-1 flex flex-wrap gap-2">
                       {record.anchor && (
-                        <Badge variant="outline" className="text-xs bg-indigo-50 text-indigo-700 border-indigo-200">
+                        <Badge variant="outline" className="text-xs bg-secondary/30 text-primary border-secondary">
                           {record.anchor.text}
                         </Badge>
                       )}
                       {record.completedActions.length > 0 && (
-                        <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                        <Badge variant="outline" className="text-xs bg-cozy-sage/20 text-foreground border-cozy-sage/40">
                           완료 {record.completedActions.length}
                         </Badge>
                       )}
                       {record.energyLogs.length > 0 && (
-                        <Badge variant="outline" className="text-xs bg-orange-50 text-orange-700 border-orange-200">
+                        <Badge variant="outline" className="text-xs bg-cozy-peach/20 text-foreground border-cozy-peach/40">
                           에너지 {record.energyLogs.length}
                         </Badge>
                       )}
@@ -82,11 +82,11 @@ export default function DailyRecordList({ records }: DailyRecordListProps) {
               </button>
 
               {isExpanded && hasContent && (
-                <div className="border-t bg-slate-50 p-4 space-y-3">
+                <div className="border-t border-border bg-secondary/10 p-4 space-y-3">
                   {record.reflection && (
                     <div>
                       <p className="text-xs font-medium text-muted-foreground mb-1">회고</p>
-                      <p className="text-sm text-slate-700">&ldquo;{record.reflection}&rdquo;</p>
+                      <p className="text-sm text-foreground">&ldquo;{record.reflection}&rdquo;</p>
                     </div>
                   )}
 
@@ -95,7 +95,7 @@ export default function DailyRecordList({ records }: DailyRecordListProps) {
                       <p className="text-xs font-medium text-muted-foreground mb-1">완료한 행동</p>
                       <div className="space-y-1">
                         {record.completedActions.map((action) => (
-                          <div key={action.id} className="text-sm text-slate-700">
+                          <div key={action.id} className="text-sm text-foreground">
                             • {action.text}
                             {action.completion_rate && (
                               <span className="text-xs text-muted-foreground ml-1">

@@ -124,7 +124,7 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
             size="sm"
             variant="ghost"
             onClick={() => setIsEditMode(true)}
-            className="h-6 px-2 text-xs text-indigo-600"
+            className="h-6 px-2 text-xs text-primary"
           >
             <Plus className="h-3 w-3 mr-1" />
             추가
@@ -144,7 +144,7 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
             size="sm"
             variant="ghost"
             onClick={() => setIsEditMode(true)}
-            className="h-6 px-2 text-xs text-indigo-600"
+            className="h-6 px-2 text-xs text-primary"
           >
             <Pencil className="h-3 w-3 mr-1" />
             수정
@@ -159,7 +159,7 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
               setIsAdding(false)
               setNewAnchorText('')
             }}
-            className="h-6 px-2 text-xs text-green-600"
+            className="h-6 px-2 text-xs text-cozy-sage"
           >
             <Check className="h-3 w-3 mr-1" />
             완료
@@ -177,8 +177,8 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
                 className={cn(
                   'cursor-pointer px-3 py-1.5 text-sm transition-all',
                   selected === anchor.id
-                    ? 'bg-indigo-600 hover:bg-indigo-700'
-                    : 'hover:border-indigo-300 hover:text-indigo-600'
+                    ? 'bg-primary hover:bg-primary/90'
+                    : 'hover:border-secondary hover:text-primary'
                 )}
                 onClick={() => handleSelect(anchor.id)}
               >
@@ -225,7 +225,7 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
                       size="icon"
                       variant="ghost"
                       onClick={() => handleStartEdit(anchor)}
-                      className="h-8 w-8 shrink-0 text-indigo-600"
+                      className="h-8 w-8 shrink-0 text-primary"
                     >
                       <Pencil className="h-3 w-3" />
                     </Button>
@@ -243,7 +243,7 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
             ))}
 
             {isAdding ? (
-              <div className="flex items-center gap-2 rounded-lg border border-dashed border-indigo-300 bg-white p-2">
+              <div className="flex items-center gap-2 rounded-lg border border-dashed border-secondary bg-card p-2">
                 <Input
                   value={newAnchorText}
                   onChange={(e) => setNewAnchorText(e.target.value)}
@@ -276,7 +276,7 @@ export default function AnchorChips({ anchors: initialAnchors, selectedAnchorId 
                 onClick={() => setIsAdding(true)}
                 variant="outline"
                 size="sm"
-                className="w-full border-dashed border-indigo-300 text-indigo-600 hover:bg-indigo-50"
+                className="w-full border-dashed border-secondary text-primary hover:bg-secondary/30"
               >
                 <Plus className="mr-2 h-3 w-3" />
                 새 앵커 추가

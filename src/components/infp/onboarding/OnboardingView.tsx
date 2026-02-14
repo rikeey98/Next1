@@ -29,7 +29,7 @@ export default function OnboardingView() {
   return (
     <div className="flex min-h-[80vh] flex-col items-center justify-center space-y-8">
       <div className="text-center">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="font-heading text-3xl font-bold bg-gradient-to-r from-primary to-cozy-lavender bg-clip-text text-transparent">
           INFP TODO
         </h1>
         <p className="mt-2 text-lg text-muted-foreground">
@@ -39,10 +39,10 @@ export default function OnboardingView() {
 
       <div className="w-full space-y-3">
         {features.map((feature) => (
-          <Card key={feature.title} className="border-indigo-100">
+          <Card key={feature.title} className="rounded-2xl border-secondary shadow-cozy">
             <CardContent className="flex items-center gap-4 py-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-100">
-                <feature.icon className="h-5 w-5 text-indigo-600" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary/30">
+                <feature.icon className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <p className="font-medium">{feature.title}</p>
@@ -55,7 +55,7 @@ export default function OnboardingView() {
 
       <Button
         size="lg"
-        className="w-full bg-indigo-600 hover:bg-indigo-700"
+        className="w-full bg-primary hover:bg-primary/90 shadow-cozy-lg"
         onClick={() => router.push('/anchor-setup')}
       >
         시작하기

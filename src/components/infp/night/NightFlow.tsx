@@ -18,17 +18,17 @@ export default function NightFlow({ reflection, dailyState, completedActions }: 
   if (alreadyDone) {
     return (
       <div className="space-y-6">
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4">
-          <p className="text-sm font-medium text-green-700">오늘의 마무리를 완료했어요!</p>
-          <p className="mt-1 text-xs text-green-600">
+        <div className="rounded-2xl border border-cozy-sage/40 bg-cozy-sage/10 p-4 shadow-cozy">
+          <p className="text-sm font-medium text-foreground">오늘의 마무리를 완료했어요!</p>
+          <p className="mt-1 text-xs text-muted-foreground">
             &ldquo;{reflection.most_me}&rdquo;
           </p>
         </div>
 
         {dailyState.tomorrow_first_action_text && (
-          <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-4">
-            <p className="text-xs text-indigo-500">내일 아침 첫 행동</p>
-            <p className="text-sm font-medium text-indigo-700">
+          <div className="rounded-2xl border border-cozy-lavender/40 bg-cozy-lavender/10 p-4 shadow-cozy">
+            <p className="text-xs text-muted-foreground">내일 아침 첫 행동</p>
+            <p className="text-sm font-medium text-foreground">
               {dailyState.tomorrow_first_action_text}
             </p>
           </div>
@@ -39,7 +39,7 @@ export default function NightFlow({ reflection, dailyState, completedActions }: 
             <h3 className="mb-2 text-sm font-medium text-muted-foreground">오늘 완료한 행동</h3>
             <div className="space-y-2">
               {completedActions.map((a) => (
-                <div key={a.id} className="rounded-lg border bg-white p-3 text-sm">
+                <div key={a.id} className="rounded-2xl border bg-card p-3 text-sm shadow-cozy">
                   {a.text} <span className="text-muted-foreground">({a.completion_rate}%)</span>
                 </div>
               ))}
@@ -57,7 +57,7 @@ export default function NightFlow({ reflection, dailyState, completedActions }: 
           <div
             key={s}
             className={`h-1.5 flex-1 rounded-full ${
-              s <= step ? 'bg-indigo-600' : 'bg-gray-200'
+              s <= step ? 'bg-cozy-lavender' : 'bg-border'
             }`}
           />
         ))}

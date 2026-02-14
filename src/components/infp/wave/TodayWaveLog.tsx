@@ -20,7 +20,7 @@ export default function TodayWaveLog({ logs }: TodayWaveLogProps) {
             timeZone: 'Asia/Seoul',
           })
           return (
-            <div key={log.id} className="flex items-center gap-3 rounded-lg border bg-white p-3">
+            <div key={log.id} className="flex items-center gap-3 rounded-2xl border bg-card p-3 shadow-cozy">
               <span className="text-xl">{config?.emoji}</span>
               <div className="flex-1">
                 <p className="text-sm font-medium">{config?.label}</p>

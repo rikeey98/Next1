@@ -11,7 +11,7 @@ interface EnergyChartProps {
 export default function EnergyChart({ logs }: EnergyChartProps) {
   if (logs.length === 0) {
     return (
-      <Card className="mb-6">
+      <Card className="mb-6 rounded-2xl shadow-cozy">
         <CardHeader>
           <CardTitle className="text-base">오늘의 파도</CardTitle>
         </CardHeader>
@@ -24,7 +24,6 @@ export default function EnergyChart({ logs }: EnergyChartProps) {
     )
   }
 
-  // Format data for chart
   const chartData = logs
     .map((log) => {
       const time = new Date(log.logged_at).toLocaleTimeString('ko-KR', {
@@ -43,7 +42,7 @@ export default function EnergyChart({ logs }: EnergyChartProps) {
   const isSinglePoint = chartData.length === 1
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 rounded-2xl shadow-cozy">
       <CardHeader>
         <CardTitle className="text-base">오늘의 파도</CardTitle>
       </CardHeader>
@@ -51,29 +50,29 @@ export default function EnergyChart({ logs }: EnergyChartProps) {
         {isSinglePoint ? (
           <ResponsiveContainer width="100%" height={200}>
             <ScatterChart margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0DDD6" />
               <XAxis
                 dataKey="time"
                 tick={{ fontSize: 12 }}
-                stroke="#9ca3af"
+                stroke="#9B8E8E"
               />
               <YAxis
                 domain={[0, 5]}
                 ticks={[1, 2, 3, 4]}
                 tick={{ fontSize: 12 }}
-                stroke="#9ca3af"
+                stroke="#9B8E8E"
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
+                  backgroundColor: '#FFFDFB',
+                  border: '1px solid #F0DDD6',
+                  borderRadius: '12px',
                   fontSize: '12px',
                 }}
               />
               <Scatter
                 data={chartData}
-                fill="#6366f1"
+                fill="#D4878F"
                 r={8}
               />
             </ScatterChart>
@@ -83,37 +82,37 @@ export default function EnergyChart({ logs }: EnergyChartProps) {
             <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorLevel" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#D4878F" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#D4878F" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0DDD6" />
               <XAxis
                 dataKey="time"
                 tick={{ fontSize: 12 }}
-                stroke="#9ca3af"
+                stroke="#9B8E8E"
               />
               <YAxis
                 domain={[0, 5]}
                 ticks={[1, 2, 3, 4]}
                 tick={{ fontSize: 12 }}
-                stroke="#9ca3af"
+                stroke="#9B8E8E"
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
+                  backgroundColor: '#FFFDFB',
+                  border: '1px solid #F0DDD6',
+                  borderRadius: '12px',
                   fontSize: '12px',
                 }}
               />
               <Area
                 type="monotone"
                 dataKey="level"
-                stroke="#6366f1"
+                stroke="#D4878F"
                 strokeWidth={2}
                 fill="url(#colorLevel)"
-                dot={{ fill: '#6366f1', r: 4 }}
+                dot={{ fill: '#D4878F', r: 4 }}
                 activeDot={{ r: 6 }}
               />
             </AreaChart>

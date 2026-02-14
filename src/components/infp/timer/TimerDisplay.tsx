@@ -22,7 +22,7 @@ export default function TimerDisplay({ remainingSeconds, totalSeconds }: TimerDi
             cy="100"
             r={radius}
             fill="none"
-            stroke="#e5e7eb"
+            stroke="#F0DDD6"
             strokeWidth="8"
           />
           <circle
@@ -30,7 +30,7 @@ export default function TimerDisplay({ remainingSeconds, totalSeconds }: TimerDi
             cy="100"
             r={radius}
             fill="none"
-            stroke="#6366f1"
+            stroke="#D4878F"
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={circumference}

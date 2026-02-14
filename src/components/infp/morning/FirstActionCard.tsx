@@ -12,12 +12,12 @@ export default function FirstActionCard({ yesterdayState }: FirstActionCardProps
 
   if (!text) {
     return (
-      <Card className="mb-6 border-dashed border-indigo-200 bg-indigo-50/50">
+      <Card className="mb-6 rounded-2xl border-dashed border-secondary bg-secondary/20 shadow-cozy">
         <CardContent className="flex items-center gap-3 py-4">
-          <Sparkles className="h-5 w-5 text-indigo-400" />
+          <Sparkles className="h-5 w-5 text-primary/60" />
           <div>
-            <p className="text-sm font-medium text-indigo-700">첫 번째 행동이 아직 없어요</p>
-            <Link href="/night" className="text-xs text-indigo-500 underline">
+            <p className="text-sm font-medium text-primary">첫 번째 행동이 아직 없어요</p>
+            <Link href="/night" className="text-xs text-primary/70 underline">
               밤 탭에서 설정하기
             </Link>
           </div>
@@ -27,12 +27,12 @@ export default function FirstActionCard({ yesterdayState }: FirstActionCardProps
   }
 
   return (
-    <Card className="mb-6 border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+    <Card className="mb-6 rounded-2xl border-secondary bg-gradient-to-r from-secondary/30 to-cozy-lavender/20 shadow-cozy">
       <CardContent className="flex items-center gap-3 py-4">
-        <Sparkles className="h-5 w-5 text-indigo-500" />
+        <Sparkles className="h-5 w-5 text-primary" />
         <div>
-          <p className="text-xs text-indigo-500">어제 밤에 정한 첫 행동</p>
-          <p className="font-medium text-indigo-800">{text}</p>
+          <p className="text-xs text-primary/70">어제 밤에 정한 첫 행동</p>
+          <p className="font-medium text-foreground">{text}</p>
         </div>
       </CardContent>
     </Card>

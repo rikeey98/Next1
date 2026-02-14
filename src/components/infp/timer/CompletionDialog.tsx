@@ -18,7 +18,7 @@ interface CompletionDialogProps {
 export default function CompletionDialog({ open, onComplete, onExtend }: CompletionDialogProps) {
   return (
     <Dialog open={open}>
-      <DialogContent className="max-w-sm" onInteractOutside={(e) => e.preventDefault()}>
+      <DialogContent className="max-w-sm rounded-2xl" onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>수고했어요!</DialogTitle>
           <DialogDescription>얼마나 완료했나요?</DialogDescription>
@@ -26,7 +26,7 @@ export default function CompletionDialog({ open, onComplete, onExtend }: Complet
         <div className="space-y-3">
           <Button
             onClick={() => onComplete(100)}
-            className="w-full bg-indigo-600 hover:bg-indigo-700"
+            className="w-full bg-primary hover:bg-primary/90"
           >
             100% 완료!
           </Button>
@@ -40,7 +40,7 @@ export default function CompletionDialog({ open, onComplete, onExtend }: Complet
           <Button
             onClick={onExtend}
             variant="ghost"
-            className="w-full text-indigo-600"
+            className="w-full text-primary"
           >
             2분 더 할래요
           </Button>

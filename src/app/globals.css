@@ -105,3 +105,72 @@ html {
 .anthropic-brand .font-body {
   font-family: 'Lora', Georgia, serif;
 }
+
+/* INFP Cozy Theme */
+.infp-cozy {
+  --background: 28 100% 97%;
+  --foreground: 0 7% 27%;
+  --card: 30 100% 99%;
+  --card-foreground: 0 7% 27%;
+  --popover: 30 100% 99%;
+  --popover-foreground: 0 7% 27%;
+  --primary: 351 38% 68%;
+  --primary-foreground: 28 100% 97%;
+  --secondary: 15 71% 84%;
+  --secondary-foreground: 0 7% 27%;
+  --muted: 15 50% 92%;
+  --muted-foreground: 0 5% 58%;
+  --accent: 15 71% 84%;
+  --accent-foreground: 0 7% 27%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 28 100% 97%;
+  --border: 15 47% 89%;
+  --input: 15 47% 89%;
+  --ring: 351 38% 68%;
+  --chart-1: 351 38% 68%;
+  --chart-2: 143 17% 55%;
+  --chart-3: 270 14% 63%;
+  --chart-4: 15 71% 84%;
+  --chart-5: 28 100% 97%;
+}
+
+.infp-cozy .font-heading {
+  font-family: 'Gowun Batang', Georgia, serif;
+}
+
+.infp-cozy .font-body {
+  font-family: 'IBM Plex Sans KR', 'Pretendard', sans-serif;
+}
+
+.infp-cozy body,
+.infp-cozy {
+  font-family: 'IBM Plex Sans KR', 'Pretendard', sans-serif;
+}
+
+/* Blob decorations */
+.infp-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.infp-blob-1 {
+  width: 200px;
+  height: 200px;
+  background: #F5C5B8;
+  top: -40px;
+  right: -60px;
+  animation: cozy-blob-drift 12s ease-in-out infinite;
+}
+
+.infp-blob-2 {
+  width: 160px;
+  height: 160px;
+  background: #C9BDD4;
+  bottom: 120px;
+  left: -40px;
+  animation: cozy-blob-drift 15s ease-in-out infinite reverse;
+}

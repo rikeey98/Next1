@@ -12,10 +12,10 @@ interface MicroActionItemProps {
 
 const statusConfig = {
   pending: { icon: Play, label: '대기', color: 'text-muted-foreground' },
-  running: { icon: Clock, label: '진행중', color: 'text-indigo-600' },
-  paused: { icon: Clock, label: '일시정지', color: 'text-yellow-600' },
-  completed: { icon: CheckCircle2, label: '완료', color: 'text-green-600' },
-  abandoned: { icon: XCircle, label: '포기', color: 'text-red-400' },
+  running: { icon: Clock, label: '진행중', color: 'text-primary' },
+  paused: { icon: Clock, label: '일시정지', color: 'text-cozy-peach' },
+  completed: { icon: CheckCircle2, label: '완료', color: 'text-cozy-sage' },
+  abandoned: { icon: XCircle, label: '포기', color: 'text-destructive/60' },
 }
 
 export default function MicroActionItem({ action }: MicroActionItemProps) {
@@ -25,8 +25,8 @@ export default function MicroActionItem({ action }: MicroActionItemProps) {
 
   const content = (
     <div className={cn(
-      'flex items-center gap-3 rounded-xl border bg-white p-4 transition-all',
-      isClickable && 'cursor-pointer hover:border-indigo-200 hover:shadow-sm'
+      'flex items-center gap-3 rounded-2xl border bg-card p-4 shadow-cozy transition-all',
+      isClickable && 'cursor-pointer hover:border-secondary hover:shadow-cozy-lg'
     )}>
       <Icon className={cn('h-5 w-5 shrink-0', config.color)} />
       <div className="flex-1 min-w-0">

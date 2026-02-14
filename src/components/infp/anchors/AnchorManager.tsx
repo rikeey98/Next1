@@ -84,7 +84,7 @@ export default function AnchorManager({ anchors: initialAnchors }: AnchorManager
     <div className="space-y-4">
       <div className="space-y-3">
         {anchors.map((anchor) => (
-          <Card key={anchor.id}>
+          <Card key={anchor.id} className="rounded-2xl shadow-cozy">
             <CardContent className="flex items-center gap-3 p-4">
               {editingId === anchor.id ? (
                 <>
@@ -98,7 +98,7 @@ export default function AnchorManager({ anchors: initialAnchors }: AnchorManager
                     size="icon"
                     variant="ghost"
                     onClick={() => handleSaveEdit(anchor.id)}
-                    className="shrink-0 text-green-600 hover:text-green-700"
+                    className="shrink-0 text-cozy-sage hover:text-cozy-sage/80"
                   >
                     <Check className="h-4 w-4" />
                   </Button>
@@ -118,7 +118,7 @@ export default function AnchorManager({ anchors: initialAnchors }: AnchorManager
                     size="icon"
                     variant="ghost"
                     onClick={() => handleStartEdit(anchor)}
-                    className="shrink-0 text-indigo-600 hover:text-indigo-700"
+                    className="shrink-0 text-primary hover:text-primary/80"
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
@@ -151,7 +151,7 @@ export default function AnchorManager({ anchors: initialAnchors }: AnchorManager
               size="icon"
               variant="ghost"
               onClick={handleAdd}
-              className="shrink-0 text-green-600 hover:text-green-700"
+              className="shrink-0 text-cozy-sage hover:text-cozy-sage/80"
             >
               <Check className="h-4 w-4" />
             </Button>
@@ -172,7 +172,7 @@ export default function AnchorManager({ anchors: initialAnchors }: AnchorManager
         <Button
           onClick={() => setIsAdding(true)}
           variant="outline"
-          className="w-full border-dashed border-indigo-300 text-indigo-600 hover:bg-indigo-50"
+          className="w-full border-dashed border-secondary text-primary hover:bg-secondary/30"
         >
           <Plus className="mr-2 h-4 w-4" />
           새 앵커 추가

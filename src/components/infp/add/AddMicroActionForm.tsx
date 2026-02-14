@@ -39,7 +39,7 @@ export default function AddMicroActionForm() {
         <Button
           onClick={handleSubmit}
           disabled={!text.trim() || isSubmitting}
-          className="w-full bg-indigo-600 hover:bg-indigo-700"
+          className="w-full bg-primary hover:bg-primary/90"
         >
           {isSubmitting ? '저장 중...' : '추가하기'}
         </Button>

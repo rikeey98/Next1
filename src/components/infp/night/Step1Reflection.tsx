@@ -55,7 +55,7 @@ export default function Step1Reflection({ initialText, onNext }: Step1Reflection
       <Button
         onClick={handleSave}
         disabled={!text.trim() || isSaving}
-        className="w-full bg-indigo-600 hover:bg-indigo-700"
+        className="w-full bg-cozy-lavender text-foreground hover:bg-cozy-lavender/80"
       >
         {isSaving ? '저장 중...' : '다음'}
       </Button>
