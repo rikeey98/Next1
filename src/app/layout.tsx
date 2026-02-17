@@ -1,12 +1,29 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import AppHeader from '@/components/AppHeader'
 import TimerBar from '@/components/TimerBar'
 import { Toaster } from 'sonner'
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#C88B9A',
+}
+
 export const metadata: Metadata = {
   title: 'Next1 - MVP Playground',
   description: '여러 MVP 아이디어를 빠르게 실험하는 공간',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '마음 한 걸음',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/icons/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({
