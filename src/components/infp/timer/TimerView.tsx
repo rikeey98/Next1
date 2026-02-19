@@ -92,7 +92,7 @@ export default function TimerView({ microAction }: TimerViewProps) {
     storeResetTimer()
     await logMicroActionEvent(microAction.id, 'abandon', { remaining })
     await updateMicroAction(microAction.id, { status: 'abandoned' })
-    router.push('/morning')
+    router.push('/infp/morning')
     router.refresh()
   }
 
@@ -114,7 +114,7 @@ export default function TimerView({ microAction }: TimerViewProps) {
       completed_at: new Date().toISOString(),
     })
     toast.success(`완료! ${rate}%의 성취감 🎉`)
-    router.push('/morning')
+    router.push('/infp/morning')
     router.refresh()
   }
 

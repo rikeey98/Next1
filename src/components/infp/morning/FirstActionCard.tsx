@@ -17,7 +17,7 @@ export default function FirstActionCard({ yesterdayState }: FirstActionCardProps
           <Sparkles className="h-5 w-5 text-primary/60" />
           <div>
             <p className="text-sm font-medium text-primary">첫 번째 행동이 아직 없어요</p>
-            <Link href="/night" className="text-xs text-primary/70 underline">
+            <Link href="/infp/night" className="text-xs text-primary/70 underline">
               밤 탭에서 설정하기
             </Link>
           </div>

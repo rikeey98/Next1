@@ -6,10 +6,10 @@ import { Sun, Waves, Moon, Footprints } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { title: '아침', href: '/morning', icon: Sun },
-  { title: '파도', href: '/wave', icon: Waves },
-  { title: '밤', href: '/night', icon: Moon },
-  { title: '발자국', href: '/footprints', icon: Footprints },
+  { title: '아침', href: '/infp/morning', icon: Sun },
+  { title: '파도', href: '/infp/wave', icon: Waves },
+  { title: '밤', href: '/infp/night', icon: Moon },
+  { title: '발자국', href: '/infp/footprints', icon: Footprints },
 ]
 
 export default function BottomNav() {

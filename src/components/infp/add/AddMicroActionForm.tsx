@@ -15,7 +15,7 @@ export default function AddMicroActionForm() {
     if (!text.trim() || isSubmitting) return
     setIsSubmitting(true)
     await insertMicroAction(text.trim())
-    router.push('/morning')
+    router.push('/infp/morning')
     router.refresh()
   }
 

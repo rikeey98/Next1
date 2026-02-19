@@ -50,7 +50,7 @@ export default function MicroActionItem({ action }: MicroActionItemProps) {
   )
 
   if (isClickable) {
-    return <Link href={`/timer/${action.id}`}>{content}</Link>
+    return <Link href={`/infp/timer/${action.id}`}>{content}</Link>
   }
 
   return content

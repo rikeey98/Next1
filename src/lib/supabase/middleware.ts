@@ -44,8 +44,8 @@ export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   // Protected routes - redirect to login if not authenticated
-  const protectedPrefixes = ['/todos', '/dashboard', '/morning', '/wave', '/night', '/add', '/timer', '/onboarding', '/anchor-setup']
-  const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix))
+  const protectedPrefixes = ['/', '/todos', '/dashboard', '/infp']
+  const isProtected = protectedPrefixes.some((prefix) => pathname === prefix || (prefix !== '/' && pathname.startsWith(prefix)))
   if (isProtected && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
@@ -55,7 +55,7 @@ export async function updateSession(request: NextRequest) {
   // Redirect authenticated users away from auth pages
   if ((pathname === '/login' || pathname === '/signup') && user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
+    url.pathname = '/'
     return NextResponse.redirect(url)
   }
 

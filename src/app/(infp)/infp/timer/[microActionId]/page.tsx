@@ -13,7 +13,7 @@ export default async function TimerPage({ params }: TimerPageProps) {
   const microAction = await getTimerData(microActionId)
 
   if (!microAction) {
-    redirect('/morning')
+    redirect('/infp/morning')
   }
 
   return <TimerView microAction={microAction} />

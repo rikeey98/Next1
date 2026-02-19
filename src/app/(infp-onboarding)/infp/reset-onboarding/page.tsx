@@ -27,7 +27,7 @@ export default function ResetOnboardingPage() {
       if (data.success) {
         setResult('✅ ' + data.message)
         setTimeout(() => {
-          router.push('/onboarding')
+          router.push('/infp/onboarding')
         }, 1500)
       } else {
         setResult('❌ ' + (data.error || '리셋 실패'))

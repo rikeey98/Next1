@@ -74,8 +74,8 @@ export async function completeOnboardingAction(anchors: { text: string; sort_ord
   }
 
   console.log('[Server Action] Profile updated:', updatedProfile)
-  console.log('[Server Action] Onboarding completed successfully, redirecting to /morning')
+  console.log('[Server Action] Onboarding completed successfully, redirecting to /infp/morning')
 
   // Redirect to morning page
-  redirect('/morning')
+  redirect('/infp/morning')
 }

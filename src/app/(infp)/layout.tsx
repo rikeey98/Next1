@@ -30,12 +30,12 @@ export default async function InfpLayout({
     await supabase
       .from('profiles')
       .insert({ id: user.id, onboarding_completed: false })
-    redirect('/onboarding')
+    redirect('/infp/onboarding')
   }
 
   if (!profile.onboarding_completed) {
-    console.log('[INFP Layout] Onboarding not completed, redirecting to /onboarding')
-    redirect('/onboarding')
+    console.log('[INFP Layout] Onboarding not completed, redirecting to /infp/onboarding')
+    redirect('/infp/onboarding')
   }
 
   console.log('[INFP Layout] Onboarding completed, rendering page')

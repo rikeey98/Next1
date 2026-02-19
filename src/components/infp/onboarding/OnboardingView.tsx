@@ -56,7 +56,7 @@ export default function OnboardingView() {
       <Button
         size="lg"
         className="w-full bg-primary hover:bg-primary/90 shadow-cozy-lg"
-        onClick={() => router.push('/anchor-setup')}
+        onClick={() => router.push('/infp/anchor-setup')}
       >
         시작하기
       </Button>

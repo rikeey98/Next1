@@ -22,7 +22,7 @@ export default function TimerBar() {
   if (status === 'idle' || !microActionId) return null
 
   return (
-    <Link href={`/timer/${microActionId}`}>
+    <Link href={`/infp/timer/${microActionId}`}>
       <div className="sticky top-14 z-40 border-b bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition-colors cursor-pointer">
         <div className="container mx-auto flex items-center justify-between px-4 py-2">
           <div className="flex items-center gap-2 min-w-0">

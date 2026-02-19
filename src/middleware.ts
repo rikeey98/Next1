@@ -7,16 +7,11 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/',
     '/todos/:path*',
     '/dashboard/:path*',
     '/login',
     '/signup',
-    '/morning',
-    '/wave',
-    '/night',
-    '/add',
-    '/timer/:path*',
-    '/onboarding',
-    '/anchor-setup',
+    '/infp/:path*',
   ],
 }

@@ -26,7 +26,7 @@ export default function Step2Tomorrow() {
 
       toast.success('내일 첫 행동이 설정되었습니다')
       router.refresh()
-      router.push('/morning')
+      router.push('/infp/morning')
     } catch (error) {
       toast.error('저장에 실패했습니다')
       setIsSaving(false)
