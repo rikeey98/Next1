@@ -13,5 +13,8 @@ export const config = {
     '/login',
     '/signup',
     '/infp/:path*',
+    '/template/:path*',
+    // 새 MVP 추가 시 아래에 한 줄 추가:
+    // '/새mvp/:path*',
   ],
 }

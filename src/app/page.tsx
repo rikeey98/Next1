@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CheckSquare, Sun, Sparkles, ExternalLink, Code2, Layers } from 'lucide-react'
+import { CheckSquare, Sun, Sparkles, ExternalLink, Code2, Layers, Plus } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/server'
@@ -140,12 +140,14 @@ export default async function Home() {
             )
           })}
 
-          {/* Coming Soon card */}
-          <div className="relative overflow-hidden rounded-xl border border-dashed border-slate-800 bg-slate-900/50 p-6 flex flex-col items-center justify-center text-center min-h-[240px]">
-            <Sparkles className="h-8 w-8 text-slate-700 mb-3" />
-            <p className="text-sm font-medium text-slate-600">Next MVP</p>
-            <p className="text-xs text-slate-700 mt-1">실험 중...</p>
-          </div>
+          {/* Add New MVP card */}
+          <Link href="/template" className="relative overflow-hidden rounded-xl border border-dashed border-slate-700 bg-slate-900/30 p-6 flex flex-col items-center justify-center text-center min-h-[240px] group hover:border-slate-600 transition-colors">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800 text-slate-500 mb-3 group-hover:bg-slate-700 transition-colors">
+              <Plus className="h-5 w-5" />
+            </div>
+            <p className="text-sm font-medium text-slate-500 group-hover:text-slate-400 transition-colors">새 MVP 추가</p>
+            <p className="text-xs text-slate-600 mt-1 font-mono">src/app/(새mvp)/</p>
+          </Link>
         </div>
       </div>
 
