@@ -8,6 +8,7 @@ export type Json =
 
 export type MicroActionStatus = 'pending' | 'running' | 'paused' | 'completed' | 'abandoned'
 export type MicroActionEventType = 'start' | 'pause' | 'resume' | 'complete' | 'abandon' | 'extend'
+export type MealTypeEnum = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'late_night'
 
 export interface Database {
   public: {
@@ -312,6 +313,42 @@ export interface Database {
         }
         Relationships: []
       }
+      meal_entries: {
+        Row: {
+          id: string
+          user_id: string
+          meal_type: MealTypeEnum
+          input_text: string | null
+          image_url: string | null
+          analysis_json: Json | null
+          recorded_at: string
+          interval_since_prev_minutes: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          meal_type: MealTypeEnum
+          input_text?: string | null
+          image_url?: string | null
+          analysis_json?: Json | null
+          recorded_at?: string
+          interval_since_prev_minutes?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          meal_type?: MealTypeEnum
+          input_text?: string | null
+          image_url?: string | null
+          analysis_json?: Json | null
+          recorded_at?: string
+          interval_since_prev_minutes?: number | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -322,6 +359,7 @@ export interface Database {
     Enums: {
       micro_action_status: MicroActionStatus
       micro_action_event_type: MicroActionEventType
+      meal_type: MealTypeEnum
     }
     CompositeTypes: {
       [_ in never]: never

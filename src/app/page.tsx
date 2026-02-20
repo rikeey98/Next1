@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CheckSquare, Sun, Sparkles, ExternalLink, Code2, Layers, Plus } from 'lucide-react'
+import { CheckSquare, Sun, Salad, ExternalLink, Code2, Layers, Plus } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/server'
@@ -28,6 +28,17 @@ const mvps = [
     stack: ['Next.js', 'Supabase', 'PWA'],
     color: 'from-indigo-500 to-purple-500',
     iconBg: 'bg-indigo-50 text-indigo-600',
+  },
+  {
+    id: 'diet',
+    title: '이지 다이어트 노트',
+    description: '텍스트/사진으로 식사를 기록하면 AI가 자동 분석. 식사 간격과 주간/월간 기록을 한눈에.',
+    icon: Salad,
+    href: '/diet',
+    status: 'live' as MvpStatus,
+    stack: ['Next.js', 'OpenAI', 'Supabase'],
+    color: 'from-emerald-500 to-teal-500',
+    iconBg: 'bg-emerald-50 text-emerald-600',
   },
 ]
 
