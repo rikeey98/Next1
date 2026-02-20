@@ -1,16 +1,34 @@
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'late_night'
 
+export interface Nutrients {
+  carbs: number
+  protein: number
+  fat: number
+  sodium: number
+}
+
+export interface FoodItem {
+  name: string
+  amount: string
+  calories?: number
+  nutrients?: Nutrients
+}
+
+export interface AnalysisJson {
+  foods: FoodItem[]
+  total_calories?: number
+  total_nutrients?: Nutrients
+  memo?: string
+  confidence?: number
+}
+
 export interface MealEntry {
   id: string
   user_id: string
   meal_type: MealType
   input_text: string | null
   image_url: string | null
-  analysis_json: {
-    foods: { name: string; amount: string }[]
-    memo?: string
-    confidence?: number
-  } | null
+  analysis_json: AnalysisJson | null
   recorded_at: string
   interval_since_prev_minutes: number | null
   created_at: string

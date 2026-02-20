@@ -18,12 +18,28 @@ async function analyzeMeal(inputText: string, imageUrl: string | null, mealType:
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     {
       role: 'system',
-      content: `You are a diet analysis assistant. Analyze the meal and return a JSON object with this exact structure:
-{"foods":[{"name":"food name","amount":"portion size"}],"memo":"any notes","confidence":0.0-1.0}
-- foods: list of identified foods with estimated amounts
-- memo: any important notes (e.g., "estimated from image", "partial information")
-- confidence: 0.0 to 1.0
-Return ONLY valid JSON, no markdown.`,
+      content: `You are a Korean diet analysis assistant. Analyze the meal and return a JSON object with this exact structure:
+{
+  "foods": [
+    {
+      "name": "음식명(한국어)",
+      "amount": "1개",
+      "calories": 500,
+      "nutrients": { "carbs": 70, "protein": 10, "fat": 15, "sodium": 1800 }
+    }
+  ],
+  "total_calories": 500,
+  "total_nutrients": { "carbs": 70, "protein": 10, "fat": 15, "sodium": 1800 },
+  "memo": "한 줄 코멘트(예: 나트륨이 높아요)",
+  "confidence": 0.85
+}
+Rules:
+- All food names must be in Korean
+- calories: kcal (integer)
+- nutrients: grams (integer), sodium: mg (integer)
+- Estimate based on standard Korean food databases
+- memo: brief Korean health tip about this meal
+- Return ONLY valid JSON, no markdown`,
     },
     {
       role: 'user',
@@ -45,7 +61,7 @@ Return ONLY valid JSON, no markdown.`,
   const response = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
     messages,
-    max_tokens: 500,
+    max_tokens: 800,
     temperature: 0.3,
   })
 
