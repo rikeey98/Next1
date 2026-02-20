@@ -3,8 +3,6 @@ import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import type { Json, MealTypeEnum } from '@/types/database'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-
 const MEAL_TYPE_LABELS: Record<string, string> = {
   breakfast: '아침',
   lunch: '점심',
@@ -14,6 +12,7 @@ const MEAL_TYPE_LABELS: Record<string, string> = {
 }
 
 async function analyzeMeal(inputText: string, imageUrl: string | null, mealType: string) {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
   const mealLabel = MEAL_TYPE_LABELS[mealType] ?? mealType
 
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
