@@ -76,10 +76,34 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 OPENAI_API_KEY=
 ```
 
-## Git 브랜치 전략
-- **메인 브랜치**: `main` (PR 대상 기본 브랜치)
-- **작업 브랜치**: `feature/`, `bugfix/`, `hotfix/` 접두사 사용
-- PR은 항상 `main` 으로 생성
+## Git 브랜치 및 AI 에이전트 협업 전략
+
+본 프로젝트는 다수의 AI 에이전트(Claude, Cursor, Gemini 등)를 병렬로 사용하여 개발합니다. 에이전트 간의 소스코드 충돌을 방지하기 위해 **Git Worktree** 기반의 격리된 환경에서 기능(Feature) 단위 브랜치로 작업해야 합니다.
+
+### 1. 에이전트별 Worktree 구성
+각 에이전트는 서로 독립된 물리적 디렉토리(Worktree)에서 작업하는 것을 원칙으로 합니다.
+- `Next1` (메인 레포지토리)
+- `Next1-claude` (Claude 전용 워크트리)
+- `Next1-cursor` (Cursor 전용 워크트리)
+- `Next1-gemini` (Gemini 전용 워크트리)
+
+> **Worktree 생성 예시 (터미널 명령어)**
+> ```bash
+> # 메인 레포지토리 폴더 안에서 실행하여 병렬 디렉토리 생성
+> git worktree add ../Next1-claude
+> git worktree add ../Next1-cursor
+> git worktree add ../Next1-gemini
+> ```
+
+### 2. 브랜치 네이밍 및 작업 가이드
+- **메인 브랜치**: `main` (PR 대상 기본 브랜치, 직접 푸시 지양)
+- **에이전트별 작업 브랜치**: 
+  - 각 에이전트는 할당된 자신의 워크트리 환경에서 새로운 피처 브랜치를 생성하여 작업합니다.
+  - 네이밍 규칙: `본인에이전트명/feature/기능이름` 또는 `본인에이전트명/bugfix/버그이름`
+  - 예시: `claude/feature/auth-login`, `gemini/feature/diet-calendar`, `cursor/bugfix/ui-error`
+- **커밋 및 PR**:
+  - 작업이 완료되면 본인의 브랜치에 커밋하고 원격 저장소에 푸시합니다.
+  - 코드를 통합할 때는 `main` 브랜치로 Pull Request (PR)를 생성합니다.
 
 ## 새 MVP 추가 방법
 1. `src/app/(template)/` 구조를 참고해 새 route group `(mvp-name)` 생성

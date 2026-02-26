@@ -1,0 +1,5 @@
+# Cursor AI Rules
+
+All development workflows, architecture decisions, and Git branching/worktree strategies must strictly follow the guidelines specified in the `CLAUDE.md` file located at the project root. 
+
+Before starting any task, read `CLAUDE.md` to ensure your branch naming and implementation follow the defined multi-agent procedures.
