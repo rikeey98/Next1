@@ -1,12 +1,13 @@
 {
-  "name": "Next1",
-  "short_name": "Next1",
-  "description": "MVP 실험 공간",
-  "start_url": "/",
+  "name": "이지 다이어트 노트",
+  "short_name": "다이어트노트",
+  "description": "간편하게 기록하는 나만의 식단 일지",
+  "start_url": "/diet",
+  "scope": "/diet/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "background_color": "#fafaf9",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",

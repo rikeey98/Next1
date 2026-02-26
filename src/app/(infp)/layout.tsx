@@ -1,6 +1,22 @@
+import type { Metadata, Viewport } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import BottomNav from '@/components/infp/BottomNav'
+
+export const viewport: Viewport = {
+  themeColor: '#C88B9A',
+}
+
+export const metadata: Metadata = {
+  title: '마음 한 걸음',
+  description: 'INFP를 위한 따뜻한 할 일 관리 앱',
+  manifest: '/manifest-infp.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '마음 한 걸음',
+  },
+}
 
 export default async function InfpLayout({
   children,

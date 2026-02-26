@@ -1,12 +1,13 @@
 {
-  "name": "Next1",
-  "short_name": "Next1",
-  "description": "MVP 실험 공간",
-  "start_url": "/",
+  "name": "마음 한 걸음",
+  "short_name": "마음한걸음",
+  "description": "INFP를 위한 따뜻한 할 일 관리 앱",
+  "start_url": "/infp/morning",
+  "scope": "/infp/",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#C88B9A",
+  "background_color": "#FFF8F5",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
