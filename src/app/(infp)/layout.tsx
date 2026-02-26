@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import BottomNav from '@/components/infp/BottomNav'
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 
 export const viewport: Viewport = {
   themeColor: '#C88B9A',
@@ -58,6 +59,7 @@ export default async function InfpLayout({
 
   return (
     <div className="infp-cozy relative mx-auto min-h-screen max-w-lg overflow-hidden bg-background pb-20">
+      <ServiceWorkerRegister swPath="/infp/sw.js" scope="/infp/" />
       <div className="infp-blob infp-blob-1" />
       <div className="infp-blob infp-blob-2" />
       <main className="relative z-10 px-4 pt-4">
