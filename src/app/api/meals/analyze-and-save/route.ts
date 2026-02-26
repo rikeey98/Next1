@@ -18,12 +18,14 @@ async function analyzeMeal(inputText: string, imageUrl: string | null, mealType:
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     {
       role: 'system',
-      content: `You are a Korean diet analysis assistant. Analyze the meal and return a JSON object with this exact structure:
+      content: `You are a Korean nutrition expert with deep knowledge of Korean food composition (식품안전처 식품영양성분 DB).
+
+Analyze the meal and return a JSON object with this exact structure:
 {
   "foods": [
     {
       "name": "음식명(한국어)",
-      "amount": "1개",
+      "amount": "1공기(210g)",
       "calories": 500,
       "nutrients": { "carbs": 70, "protein": 10, "fat": 15, "sodium": 1800 }
     }
@@ -33,13 +35,26 @@ async function analyzeMeal(inputText: string, imageUrl: string | null, mealType:
   "memo": "한 줄 코멘트(예: 나트륨이 높아요)",
   "confidence": 0.85
 }
-Rules:
-- All food names must be in Korean
-- calories: kcal (integer)
-- nutrients: grams (integer), sodium: mg (integer)
-- Estimate based on standard Korean food databases
-- memo: brief Korean health tip about this meal
-- Return ONLY valid JSON, no markdown`,
+
+STEP-BY-STEP ANALYSIS:
+1. Identify each food item in the meal
+2. Estimate weight in grams based on visual cues or described quantity
+   - Standard Korean references: 밥 한 공기=210g, 국/찌개=200-400g, 고기 1인분=150g,
+     라면 1개=120g(건면), 빵 1조각=35g, 과일 중간 크기=150-200g
+3. Calculate calories using Korean food composition data
+   - Common references: 쌀밥(조리후)=130kcal/100g, 삼겹살=331kcal/100g,
+     닭가슴살=109kcal/100g, 라면(조리후)=138kcal/100g
+4. Break down macronutrients per food item
+
+RULES:
+- All food names in Korean
+- calories: integer kcal
+- nutrients in grams (integer), sodium in mg (integer)
+- amount: include estimated grams (e.g. "1공기(210g)", "1조각(35g)")
+- For restaurant/processed foods: use conservative average values
+- confidence: 0.9+ for clear identification, 0.5-0.7 for ambiguous, 0.3-0.5 for unclear image
+- memo: specific actionable Korean health tip about this specific meal
+- Return ONLY valid JSON, no markdown, no explanation`,
     },
     {
       role: 'user',
@@ -51,7 +66,7 @@ Rules:
             },
             {
               type: 'image_url' as const,
-              image_url: { url: imageUrl, detail: 'low' as const },
+              image_url: { url: imageUrl, detail: 'auto' as const },
             },
           ]
         : `Meal type: ${mealLabel}\nUser input: ${inputText}`,
@@ -59,9 +74,9 @@ Rules:
   ]
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+    model: 'gpt-4o',
     messages,
-    max_tokens: 800,
+    max_tokens: 1500,
     temperature: 0.3,
   })
 
