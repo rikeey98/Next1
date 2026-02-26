@@ -8,7 +8,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#C88B9A',
+  themeColor: '#ffffff',
 }
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: '마음 한 걸음',
+    title: 'Next1',
   },
   icons: {
     icon: '/favicon.ico',
