@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { getTodayLocalDateStr, toLocalDateStr, getLocalDateBoundsUTC } from '@/lib/timezone'
 
 export async function GET(request: Request) {
   const supabase = await createClient()
@@ -9,34 +10,45 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('timezone')
+    .eq('id', user.id)
+    .single()
+  const tz = profile?.timezone ?? 'Asia/Seoul'
+
   const { searchParams } = new URL(request.url)
   const range = searchParams.get('range') // 'today' | 'week' | 'month'
   const date = searchParams.get('date') // YYYY-MM-DD
 
-  const baseDate = date ? new Date(date) : new Date()
+  const baseDateStr = date ?? getTodayLocalDateStr(tz)
 
   let from: Date
   let to: Date
 
   if (range === 'week') {
-    // 해당 날짜가 속한 주의 월~일
-    const day = baseDate.getDay() // 0=일, 1=월
-    const mondayOffset = day === 0 ? -6 : 1 - day
-    from = new Date(baseDate)
-    from.setDate(baseDate.getDate() + mondayOffset)
-    from.setHours(0, 0, 0, 0)
-    to = new Date(from)
-    to.setDate(from.getDate() + 6)
-    to.setHours(23, 59, 59, 999)
+    // 해당 날짜가 속한 주의 월~일 (타임존 기준)
+    const [y, m, d] = baseDateStr.split('-').map(Number)
+    const dayOfWeek = new Date(Date.UTC(y, m - 1, d)).getUTCDay() // 0=일, 1=월
+    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+    const mondayDate = new Date(Date.UTC(y, m - 1, d + mondayOffset))
+    const sundayDate = new Date(Date.UTC(y, m - 1, d + mondayOffset + 6))
+    const mondayStr = toLocalDateStr(mondayDate, tz)
+    const sundayStr = toLocalDateStr(sundayDate, tz)
+    from = getLocalDateBoundsUTC(mondayStr, tz).from
+    to = getLocalDateBoundsUTC(sundayStr, tz).to
   } else if (range === 'month') {
-    from = new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
-    to = new Date(baseDate.getFullYear(), baseDate.getMonth() + 1, 0, 23, 59, 59, 999)
+    const [y, m] = baseDateStr.split('-').map(Number)
+    const lastDay = new Date(y, m, 0).getDate()
+    const firstStr = `${y}-${String(m).padStart(2, '0')}-01`
+    const lastStr = `${y}-${String(m).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
+    from = getLocalDateBoundsUTC(firstStr, tz).from
+    to = getLocalDateBoundsUTC(lastStr, tz).to
   } else {
     // today (default)
-    from = new Date(baseDate)
-    from.setHours(0, 0, 0, 0)
-    to = new Date(baseDate)
-    to.setHours(23, 59, 59, 999)
+    const bounds = getLocalDateBoundsUTC(baseDateStr, tz)
+    from = bounds.from
+    to = bounds.to
   }
 
   const { data, error } = await supabase

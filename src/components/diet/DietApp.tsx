@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { PenLine, BookOpen } from 'lucide-react'
@@ -15,6 +15,15 @@ interface Props {
 export default function DietApp({ initialMeals }: Props) {
   const [meals, setMeals] = useState<MealEntry[]>(initialMeals)
   const router = useRouter()
+
+  useEffect(() => {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+    fetch('/api/profile/timezone', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ timezone: tz }),
+    })
+  }, [])
 
   const handleSaved = (newMeal: MealEntry) => {
     setMeals((prev) => [newMeal, ...prev])

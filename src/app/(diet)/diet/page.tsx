@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import DietApp from '@/components/diet/DietApp'
 import type { MealEntry } from '@/components/diet/types'
+import { getTodayLocalDateStr, getLocalDateBoundsUTC } from '@/lib/timezone'
 
 export const dynamic = 'force-dynamic'
 
@@ -8,12 +9,16 @@ export default async function DietPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // 오늘 기록 초기 로드
-  const today = new Date()
-  const from = new Date(today)
-  from.setHours(0, 0, 0, 0)
-  const to = new Date(today)
-  to.setHours(23, 59, 59, 999)
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('timezone')
+    .eq('id', user!.id)
+    .single()
+  const tz = profile?.timezone ?? 'Asia/Seoul'
+
+  // 오늘 기록 초기 로드 (타임존 기준)
+  const todayStr = getTodayLocalDateStr(tz)
+  const { from, to } = getLocalDateBoundsUTC(todayStr, tz)
 
   const { data: todayMeals } = await supabase
     .from('meal_entries')
