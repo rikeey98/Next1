@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
+import PwaInstallBanner from '@/components/PwaInstallBanner'
 
 export const viewport: Viewport = {
   themeColor: '#ffffff',
@@ -29,6 +30,7 @@ export default async function DietLayout({ children }: { children: React.ReactNo
   return (
     <div className="relative mx-auto min-h-screen max-w-lg bg-white">
       <ServiceWorkerRegister swPath="/diet/sw.js" scope="/diet/" />
+      <PwaInstallBanner appName="다이어트노트" />
       {children}
     </div>
   )
