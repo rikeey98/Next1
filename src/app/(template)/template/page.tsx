@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic'
-
 const steps = [
   {
     number: '01',

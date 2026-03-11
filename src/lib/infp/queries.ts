@@ -190,6 +190,26 @@ export async function getFootprintsData() {
       .eq('status', 'completed'),
   ])
 
+  // O(1) 조회를 위한 Map 인덱싱
+  const reflectionsByDate = new Map(reflectionsRes.data?.map(r => [r.date, r]))
+  const anchorsById = new Map(anchorsRes.data?.map(a => [a.id, a]))
+
+  const energyByDate = new Map<string, NonNullable<typeof energyLogsRes.data>>()
+  for (const e of energyLogsRes.data ?? []) {
+    const date = e.logged_at.slice(0, 10)
+    const bucket = energyByDate.get(date)
+    if (bucket) bucket.push(e)
+    else energyByDate.set(date, [e])
+  }
+
+  const actionsByDate = new Map<string, NonNullable<typeof actionsRes.data>>()
+  for (const a of actionsRes.data ?? []) {
+    const date = a.created_at.slice(0, 10)
+    const bucket = actionsByDate.get(date)
+    if (bucket) bucket.push(a)
+    else actionsByDate.set(date, [a])
+  }
+
   // Calculate stats
   const avgEnergy = energyLogsRes.data?.length
     ? (energyLogsRes.data.reduce((sum, log) => sum + log.level, 0) / energyLogsRes.data.length).toFixed(1)
@@ -203,37 +223,25 @@ export async function getFootprintsData() {
   }, {} as Record<string, number>) ?? {}
 
   const topAnchorId = Object.entries(anchorCounts).sort((a, b) => b[1] - a[1])[0]?.[0]
-  const topAnchor = anchorsRes.data?.find(a => a.id === topAnchorId)
+  const topAnchor = topAnchorId ? anchorsById.get(topAnchorId) : undefined
 
-  // Combine daily records
-  const dailyRecords = dailyStatesRes.data?.map(ds => {
-    const reflection = reflectionsRes.data?.find(r => r.date === ds.date)
-    const dayEnergy = energyLogsRes.data?.filter(e =>
-      e.logged_at.startsWith(ds.date)
-    )
-    const dayActions = actionsRes.data?.filter(a =>
-      a.created_at.startsWith(ds.date)
-    )
-    const anchor = anchorsRes.data?.find(a => a.id === ds.selected_anchor_id)
+  // Combine daily records — O(n) (Map 조회 O(1))
+  const dailyRecords = dailyStatesRes.data?.map(ds => ({
+    date: ds.date,
+    anchor: ds.selected_anchor_id ? anchorsById.get(ds.selected_anchor_id) : undefined,
+    reflection: reflectionsByDate.get(ds.date)?.most_me,
+    energyLogs: energyByDate.get(ds.date) ?? [],
+    completedActions: actionsByDate.get(ds.date) ?? [],
+  })) ?? []
 
-    return {
-      date: ds.date,
-      anchor,
-      reflection: reflection?.most_me,
-      energyLogs: dayEnergy ?? [],
-      completedActions: dayActions ?? [],
-    }
-  }) ?? []
-
-  // Prepare energy wave data for overlayed chart (last 7 days)
+  // Prepare energy wave data for overlayed chart (last 7 days) — O(n) (Map 조회 O(1))
   const energyWaveData = []
   for (let i = 6; i >= 0; i--) {
     const date = new Date()
     date.setDate(date.getDate() - i)
     const dateStr = date.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })
 
-    const dayLogs = energyLogsRes.data?.filter(e => e.logged_at.startsWith(dateStr)) ?? []
-    const logs = dayLogs.map(log => {
+    const dayLogs = (energyByDate.get(dateStr) ?? []).map(log => {
       const logDate = new Date(log.logged_at)
       const kstTime = new Date(logDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
       return {
@@ -243,10 +251,7 @@ export async function getFootprintsData() {
       }
     })
 
-    energyWaveData.push({
-      date: dateStr,
-      logs,
-    })
+    energyWaveData.push({ date: dateStr, logs: dayLogs })
   }
 
   return {
