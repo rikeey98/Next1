@@ -42,10 +42,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ anchor: data })
   } catch (error) {
     console.error('Failed to create anchor:', error)
-    return NextResponse.json({
-      error: 'Failed to create anchor',
-      details: error instanceof Error ? error.message : String(error)
-    }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to create anchor' }, { status: 500 })
   }
 }
 
@@ -78,10 +75,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ anchor: data })
   } catch (error) {
     console.error('Failed to update anchor:', error)
-    return NextResponse.json({
-      error: 'Failed to update anchor',
-      details: error instanceof Error ? error.message : String(error)
-    }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to update anchor' }, { status: 500 })
   }
 }
 
@@ -112,9 +106,6 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Failed to delete anchor:', error)
-    return NextResponse.json({
-      error: 'Failed to delete anchor',
-      details: error instanceof Error ? error.message : String(error)
-    }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to delete anchor' }, { status: 500 })
   }
 }

@@ -36,9 +36,6 @@ export async function POST() {
     })
   } catch (error) {
     console.error('Failed to reset onboarding:', error)
-    return NextResponse.json({
-      error: 'Failed to reset onboarding',
-      details: error instanceof Error ? error.message : String(error)
-    }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to reset onboarding' }, { status: 500 })
   }
 }

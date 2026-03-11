@@ -41,7 +41,7 @@ export async function GET(request: Request) {
     .lte('recorded_at', to.toISOString())
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: '데이터 조회에 실패했습니다.' }, { status: 500 })
   }
 
   // 날짜별 카운트 (타임존 기준)

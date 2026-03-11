@@ -74,9 +74,6 @@ export async function POST() {
     })
   } catch (error) {
     console.error('Failed to cleanup anchors:', error)
-    return NextResponse.json({
-      error: 'Failed to cleanup anchors',
-      details: error instanceof Error ? error.message : String(error)
-    }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to cleanup anchors' }, { status: 500 })
   }
 }

@@ -17,6 +17,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: '파일이 없습니다.' }, { status: 400 })
     }
 
+    const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      return NextResponse.json({ error: '이미지 파일만 업로드 가능합니다.' }, { status: 400 })
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ error: '파일 크기는 5MB 이하여야 합니다.' }, { status: 400 })
+    }
+
     const ext = file.name.split('.').pop() ?? 'jpg'
     const path = `${user.id}/${Date.now()}.${ext}`
 
@@ -33,9 +43,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ url: publicUrl })
   } catch (error) {
     console.error('Upload failed:', error)
-    return NextResponse.json({
-      error: '이미지 업로드에 실패했습니다.',
-      details: error instanceof Error ? error.message : String(error),
-    }, { status: 500 })
+    return NextResponse.json({ error: '이미지 업로드에 실패했습니다.' }, { status: 500 })
   }
 }

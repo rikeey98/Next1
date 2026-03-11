@@ -21,6 +21,10 @@ export async function GET(request: Request) {
   const range = searchParams.get('range') // 'today' | 'week' | 'month'
   const date = searchParams.get('date') // YYYY-MM-DD
 
+  if (range && !['today', 'week', 'month'].includes(range)) {
+    return NextResponse.json({ error: '유효하지 않은 range 파라미터입니다.' }, { status: 400 })
+  }
+
   const baseDateStr = date ?? getTodayLocalDateStr(tz)
 
   let from: Date
@@ -60,7 +64,7 @@ export async function GET(request: Request) {
     .order('recorded_at', { ascending: false })
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: '데이터 조회에 실패했습니다.' }, { status: 500 })
   }
 
   return NextResponse.json({ meals: data })

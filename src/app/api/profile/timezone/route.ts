@@ -28,7 +28,7 @@ export async function PATCH(request: Request) {
     .eq('id', user.id)
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: '타임존 업데이트에 실패했습니다.' }, { status: 500 })
   }
 
   return NextResponse.json({ success: true })

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import type { Json, MealTypeEnum } from '@/types/database'
+import { isValidMealType } from '@/lib/api-helpers'
 
 const MEAL_TYPE_LABELS: Record<string, string> = {
   breakfast: '아침',
@@ -103,6 +104,9 @@ export async function POST(request: Request) {
     if (!mealType) {
       return NextResponse.json({ error: '식사 타입을 선택해주세요.' }, { status: 400 })
     }
+    if (!isValidMealType(mealType)) {
+      return NextResponse.json({ error: '유효하지 않은 식사 타입입니다.' }, { status: 400 })
+    }
     if (!inputText?.trim() && !imageUrl) {
       return NextResponse.json({ error: '텍스트 또는 이미지를 입력해주세요.' }, { status: 400 })
     }
@@ -154,9 +158,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ meal: data })
   } catch (error) {
     console.error('Failed to analyze and save meal:', error)
-    return NextResponse.json({
-      error: '기록 저장에 실패했습니다.',
-      details: error instanceof Error ? error.message : String(error),
-    }, { status: 500 })
+    return NextResponse.json({ error: '기록 저장에 실패했습니다.' }, { status: 500 })
   }
 }
